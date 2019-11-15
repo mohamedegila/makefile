@@ -9,55 +9,62 @@
 #      Generic Makefile for any project,
 # Note : All Files.o Genrated in Src file and app.exe genrated in main file
 #------------------------------------------------------------------------------
+
+#-------------------------------------------------------
+# <Description> 
+#	This is my first try to make all Genaric But i found that all generated file
+#	genreted in Src file so i move to anther way
+#
+#INCLUDE_PATH = -I./Inc/\
+#			   -I./Inc/ \
+#			   -I./Inc/  \
+#			   -I./Inc/
+#			   
+#SRC_PATH  =   ./Src/DIO.c \
+#			  ./Src/LCD.c  \
+#			  ./Src/main.c
+#			  
+#OBJ_PATH  = ./Dependencies/code.o
+#OBJ = $(SRC_PATH:.c=.o)
+#I = $(SRC_PATH:.c=.i)
+#----------------------------------------------
+
 #--------------------------------------------#
-#     General configuration  for makefile    #
+#        makefile configuration              #
 #--------------------------------------------#
 
-#Optional Varible to Hide any information from apparing on CMD Put ' @ ' if you want to Hide info
-HideInfo = 
-
-CC = gcc_S
-LINK_TARGET = app.exe
-INCLUDE_PATH = -I./Inc/\
-			   -I./Inc/ \
-			   -I./Inc/  \
-			   -I./Inc/
-			   
-SRC_PATH  =   ./Src/DIO.c \
-			  ./Src/LCD.c  \
-			  ./Src/main.c
-			  
-OBJ_PATH  = ./Dependencies/code.o
-
+include makefile_Cfg.mk
 
 #--------------------------------------------#
-#        Compiler Flags and Defines          #
+#      Rule to Generate a Obj. file          #
 #--------------------------------------------#
-OBJ = $(SRC_PATH:.c=.o)
-CFLAGS = -std=c99 -Werror -Wall -g
-I = $(SRC_PATH:.c=.i)
-
-
 %.o : %.c
-	$(HideInfo) $(CC) -c $< $(INCLUDE_PATH) $(CFLAGS) -o $@
+	$(HideInfo) $(CC) -c $< -I$(INCLUDE_PATH) $(CFLAGS) -o $@
 	
 #--------------------------------------------#
-#             make_S all                     #
+#             Rule to make all               #
 #--------------------------------------------#
 all:$(LINK_TARGET)
-	@$ echo "Building done !"
+	@echo Building done !
 	
 #--------------------------------------------#
-#             make_S LINK_TARGET             #
+#             Rule to LINK_TARGET            #
 #--------------------------------------------#
-$(LINK_TARGET): $(OBJ) $(OBJ_PATH)
-	$(HideInfo) $(CC) $(INCLUDE_PATH) $(OBJ) $(OBJ_PATH) -o $@
-	@$ echo "Linking done !"
+$(LINK_TARGET): $(OBJ) $(OUT_SOURCE) $(DEP) 
+# name of the specified object file should be explicitly added here
+	$(CC) $(OBJ) $(OUT_SOURCE) -o $@
+	@echo "Linking done !"
 	
 #--------------------------------------------#
-#             make_S clean                   #
+#             Rule to clean                  #
 #--------------------------------------------#
 .PHONY: clean
 clean:
-	rm  -f $(OBJ) $(LINK_TARGET)
+	rm  -f $(OBJ) $(LINK_TARGET) $(DEP)
 	@$ echo "Cleaning done !"
+	
+#--------------------------------------------#
+#      Rule to Generate a Dep. file          #
+#--------------------------------------------#
+$(DEPENDENCY_PATH)%.d: %.c
+	$(CC) $(CFLAG) $< -MM -MT $(@:%.d=.o) >$@
