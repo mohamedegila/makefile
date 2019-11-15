@@ -45,7 +45,7 @@ include makefile_Cfg.mk
 #             Rule to make all               #
 #--------------------------------------------#
 all:$(LINK_TARGET)
-	@echo Building done !
+	@$ echo Building done !
 	
 #--------------------------------------------#
 #             Rule to LINK_TARGET            #
@@ -53,7 +53,7 @@ all:$(LINK_TARGET)
 $(LINK_TARGET): $(OBJ) $(OUT_SOURCE) $(DEP) 
 # name of the specified object file should be explicitly added here
 	$(CC) $(OBJ) $(OUT_SOURCE) -o $@
-	@echo "Linking done !"
+	@$ echo "Linking done !"
 	
 #--------------------------------------------#
 #             Rule to clean                  #
