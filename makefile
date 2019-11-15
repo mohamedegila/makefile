@@ -45,7 +45,7 @@ include makefile_Cfg.mk
 #             Rule to make all               #
 #--------------------------------------------#
 all:$(LINK_TARGET)
-	@$ echo Building done !
+	@$ echo "Building done !"
 	
 #--------------------------------------------#
 #             Rule to LINK_TARGET            #
