@@ -35,6 +35,7 @@
 
 include makefile_Cfg.mk
 
+-include $(OBJ:.o=.d)
 #--------------------------------------------#
 #      Rule to Generate a Obj. file          #
 #--------------------------------------------#
@@ -67,4 +68,5 @@ clean:
 #      Rule to Generate a Dep. file          #
 #--------------------------------------------#
 $(DEPENDENCY_PATH)%.d: %.c
-	$(CC) $(CFLAG) $< -MM -MT $(@:%.d=.o) >$@
+	#$(CC) -MM $<  -MT $@' '$(@:%.d=.o) -o $@
+	gcc_S -MM $(CFLAGS) -I$(INCLUDE_PATH) $< > $@
